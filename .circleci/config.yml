@@ -13,7 +13,7 @@ jobs:
           key: sbt-cache
       - run:
           name: Compile samplescala dist package
-          command: cat /dev/null | sbt clean update dist
+          command: cat /dev/null | sbt clean update compile
       - save_cache:
           key: sbt-cache
           paths:
