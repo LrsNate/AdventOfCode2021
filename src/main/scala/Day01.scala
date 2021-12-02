@@ -8,8 +8,12 @@ object Day01 {
     val windows = Range(2, depths.size).map { idx =>
       depths(idx - 2) + depths(idx - 1) + depths(idx)
     }
-    println(Range(1, windows.size).map({ (idx: Int) =>
-      if windows(idx - 1) < windows(idx) then 1 else 0
-    }).sum)
+    println(
+      Range(1, windows.size)
+        .map({ (idx: Int) =>
+          if windows(idx - 1) < windows(idx) then 1 else 0
+        })
+        .sum
+    )
   }
 }

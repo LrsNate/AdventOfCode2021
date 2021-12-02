@@ -13,8 +13,9 @@ object Day02 {
     }
     val arrival = instructions.foldLeft(Position(0, 0, 0)) { (pos, instr) =>
       instr match {
-        case Instruction("forward", n) => Position(pos.x + n, pos.y + (n * pos.aim), pos.aim)
-        case Instruction("up", n) => Position(pos.x, pos.y, pos.aim - n)
+        case Instruction("forward", n) =>
+          Position(pos.x + n, pos.y + (n * pos.aim), pos.aim)
+        case Instruction("up", n)   => Position(pos.x, pos.y, pos.aim - n)
         case Instruction("down", n) => Position(pos.x, pos.y, pos.aim + n)
       }
     }
