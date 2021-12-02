@@ -6,18 +6,8 @@ commands:
 jobs:
   build:
     docker:
-      - image: openjdk:8
-    environment:
-      SBT_VERSION: 1.5.5
+      - image: hseeberger/scala-sbt:17.0.0_1.5.5_3.1.0
     steps:
-      - run:
-          name: Get sbt binary
-          command: |
-            apt update && apt install -y curl
-            curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb
-            dpkg -i sbt-$SBT_VERSION.deb
-            rm sbt-$SBT_VERSION.deb
-            apt-get clean && apt-get autoclean
       - checkout
       - restore_cache:
           key: sbt-cache
@@ -34,18 +24,8 @@ jobs:
     requires:
       - build
     docker:
-      - image: openjdk:8
-    environment:
-      SBT_VERSION: 1.5.5
+      - image: hseeberger/scala-sbt:17.0.0_1.5.5_3.1.0
     steps:
-      - run:
-          name: Get sbt binary
-          command: |
-            apt update && apt install -y curl
-            curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb
-            dpkg -i sbt-$SBT_VERSION.deb
-            rm sbt-$SBT_VERSION.deb
-            apt-get clean && apt-get autoclean
       - checkout
       - restore_cache:
           key: sbt-cache
