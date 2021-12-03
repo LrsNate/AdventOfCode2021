@@ -29,6 +29,29 @@ object Day03 {
     }
   }
 
+  def findAirRating(
+      lines: List[String]
+  )(counterSelector: Counter => Int): Int = {
+    val finder = Range(0, lines.head.length).foldLeft(RatingFinder("", lines)) {
+      (finder, idx) =>
+        if finder.ratings.length == 1 then {
+          val finalRating = finder.ratings.head
+          RatingFinder(finalRating, finder.ratings)
+        } else {
+          val counters = countChars(finder.ratings)
+          val higher = counterSelector(counters(finder.index)).toString
+          val newPrefix = finder.prefix + higher
+          RatingFinder(
+            newPrefix,
+            lines filter {
+              _ startsWith newPrefix
+            }
+          )
+        }
+    }
+    binaryToInt(finder.prefix)
+  }
+
   def main(args: Array[String]): Unit = {
     val lines = Util.getLines("day03")
     val counters = countChars(lines)
@@ -39,41 +62,9 @@ object Day03 {
       (2 * n) + counter.lower
     }
 
-    val oxygen = Range(0, lines.head.length).foldLeft(RatingFinder("", lines)) {
-      (finder, idx) =>
-        if finder.ratings.length == 1 then {
-          val finalRating = finder.ratings.head
-          RatingFinder(finalRating, List(finalRating))
-        } else {
-          val counters = countChars(finder.ratings)
-          val higher = counters(finder.index).higher.toString
-          val newPrefix = finder.prefix + higher
-          RatingFinder(
-            newPrefix,
-            lines filter {
-              _ startsWith newPrefix
-            }
-          )
-        }
-    }
+    val oxygen = findAirRating(lines) { _.higher }
+    val co2 = findAirRating(lines) { _.lower }
 
-    val co2 = Range(0, lines.head.length).foldLeft(RatingFinder("", lines)) {
-      (finder, idx) =>
-        if finder.ratings.length == 1 then {
-          val finalRating = finder.ratings.head
-          RatingFinder(finalRating, List(finalRating))
-        } else {
-          val counters = countChars(finder.ratings)
-          val lower = counters(finder.index).lower.toString
-          val newPrefix = finder.prefix + lower
-          RatingFinder(
-            newPrefix,
-            lines filter {
-              _ startsWith newPrefix
-            }
-          )
-        }
-    }
-    println(binaryToInt(oxygen.prefix) * binaryToInt(co2.prefix))
+    println(oxygen * co2)
   }
 }
